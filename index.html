@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fbf8f0">
+  <meta name="description" content="오늘 저녁 뭐 먹지? 취향, 조리 시간, 예산에 맞는 한 끼를 골라보세요. 메뉴 추천부터 간단한 조리법, 즐겨찾기까지.">
+  <title>오늘의 한 끼 — 오늘 저녁 뭐 먹지?</title>
+  <link rel="stylesheet" href="./style.css">
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <header class="header wrap">
+    <a href="#page-title" class="brand" aria-label="오늘의 한 끼 홈"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M5 24h22l7-8" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/><path d="M6 24a11 11 0 0 0 22 0" fill="currentColor"/><path d="M13 15c-5-5 4-5 0-10m8 10c-5-5 4-5 0-10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg>오늘의 한 끼<span class="brand-dot">.</span></a>
+    <button class="saved-button" id="open-saved"><span aria-hidden="true">♡</span> 담아둔 메뉴 <span id="saved-count" class="count">0</span></button>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow"><span class="sun-dot"></span> A LITTLE HELP FOR YOUR DINNER</p><h1 id="page-title">오늘 저녁,<br>뭐 먹을까요<span class="accent">?</span></h1><p class="intro-copy">고민은 덜고, 맛있는 한 끼는 더하고.<br>지금 끌리는 맛을 골라보세요. 나머지는 맡겨주세요.</p></div>
+      <div class="intro-note"><span class="note-doodle" aria-hidden="true">✳</span><p>하루의 끝에<br><strong>맛있는 쉼표 하나.</strong></p><span id="today-date"></span></div>
+    </section>
+
+    <section class="picker" aria-labelledby="preference-title">
+      <div class="picker-heading"><h2 id="preference-title">오늘은 이런 게 끌려요</h2><button class="text-button" id="reset">선택 초기화 <span aria-hidden="true">↺</span></button></div>
+      <div class="filter-row"><span class="filter-label" id="cuisine-label">메뉴 종류</span><div class="chips" role="group" aria-labelledby="cuisine-label" data-filter="cuisine"><button class="chip active" data-value="all" aria-pressed="true">아무거나</button><button class="chip" data-value="한식" aria-pressed="false">한식</button><button class="chip" data-value="중식" aria-pressed="false">중식</button><button class="chip" data-value="일식" aria-pressed="false">일식</button><button class="chip" data-value="양식" aria-pressed="false">양식</button></div></div>
+      <div class="filter-row"><span class="filter-label" id="time-label">만드는 시간</span><div class="chips" role="group" aria-labelledby="time-label" data-filter="time"><button class="chip active" data-value="all" aria-pressed="true">상관없어요</button><button class="chip" data-value="15" aria-pressed="false">15분 이내</button><button class="chip" data-value="30" aria-pressed="false">30분 이내</button></div></div>
+      <div class="filter-bottom"><div class="taste-row"><span class="filter-label" id="taste-label">오늘의 맛</span><div class="chips" role="group" aria-labelledby="taste-label" data-filter="taste"><button class="chip active" data-value="all" aria-pressed="true">모든 맛</button><button class="chip" data-value="mild" aria-pressed="false">순한 맛</button><button class="chip" data-value="spicy" aria-pressed="false">매콤한 맛</button></div></div><div class="extras"><label class="budget-label">재료비 <select id="budget" aria-label="1인분 예상 재료비"><option value="all">상관없어요</option><option value="5000">5천 원 이내</option><option value="10000">1만 원 이내</option></select></label><label class="veg-label"><input type="checkbox" id="vegetarian"><span class="switch" aria-hidden="true"></span>채식 메뉴</label></div></div>
+    </section>
+
+    <section class="recommendation" aria-labelledby="result-label">
+      <div class="section-line"><h2 id="result-label"><span class="tiny-star" aria-hidden="true">✦</span> 오늘의 저녁 제안</h2><p id="candidate-count" role="status"></p></div>
+      <div id="result" aria-live="polite" aria-atomic="true"></div>
+      <div class="recommend-bottom"><p><span aria-hidden="true">↳</span> 마음에 들 때까지 골라도 괜찮아요.</p><button id="recommend" class="primary-button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7h3c6 0 6 10 12 10h3m-4-4 4 4-4 4M3 17h3c2 0 3-1 4-3m4-4c1-2 2-3 4-3h3m-4-4 4 4-4 4"/></svg><span id="recommend-label">다른 메뉴 추천받기</span></button></div>
+      <div id="chosen" class="chosen" hidden role="status"></div>
+    </section>
+
+    <section class="recent-section" id="recent-section" hidden aria-labelledby="recent-title"><div class="section-line"><h2 id="recent-title">방금 둘러본 한 끼</h2><span class="quiet">다시 보고 싶은 메뉴가 있나요?</span></div><div id="recent" class="recent-list"></div></section>
+    <section class="closing"><svg viewBox="0 0 48 48" aria-hidden="true"><path d="M6 31h36M9 31a15 15 0 0 1 30 0M21 12h6M24 12V8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/></svg><div><strong>거창하지 않아도, 좋은 저녁.</strong><p>따뜻한 밥 한 끼로 오늘도 잘 마무리해요.</p></div><span class="closing-stamp">잘 먹겠습니다</span></section>
+  </main>
+  <footer class="wrap footer"><span class="footer-brand">오늘의 한 끼.</span><p>조리 시간과 재료비는 1인분 기준의 대략적인 값이에요.</p><span>MADE FOR YOUR EVENING</span></footer>
+  <dialog id="details" aria-labelledby="dialog-title"><div class="dialog-header"><span class="eyebrow">YOUR DINNER NOTE</span><button class="icon-button close-dialog" aria-label="닫기">×</button></div><div id="detail-content"></div></dialog>
+  <dialog id="saved" aria-labelledby="saved-title"><div class="dialog-header"><h2 id="saved-title">담아둔 메뉴 <span aria-hidden="true">♡</span></h2><button class="icon-button close-dialog" aria-label="닫기">×</button></div><p class="dialog-sub">다음 저녁에도 꺼내보고 싶은 메뉴들.</p><div id="saved-list"></div></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+</body></html>
